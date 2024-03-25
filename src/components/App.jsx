@@ -53,10 +53,21 @@ export class App extends Component {
       },
     });
   };
+  componentDidMount() {
+    const stringifiedBooks = localStorage.getItem('books');
+    const books = JSON.parse(stringifiedBooks) ?? [];
 
-  // componentDidMount() {
-  //   // console.log('App componentDidMount');
-  // }
+    this.setState({ books });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.modal.isOpen !== this.state.modal.isOpen) {
+      console.log('OPEN or CLOSED modal');
+    }
+    if (prevState.books.length !== this.state.books.length) {
+      const stringifiedBooks = JSON.stringify(this.state.books);
+      localStorage.setItem('books', stringifiedBooks);
+    }
+  }
 
   render() {
     return (
